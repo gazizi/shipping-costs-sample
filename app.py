@@ -12,7 +12,7 @@ from flask import make_response
 app = Flask(__name__)
 
 
-@app.route('/webhook', methods=['POST'])
+@app.route('/trackingwebhook', methods=['POST'])
 def webhook():
     req = request.get_json(silent=True, force=True)
 
@@ -27,16 +27,18 @@ def webhook():
     r.headers['Content-Type'] = 'application/json'
     return r
 
+    return r
+
 def makeWebhookResult(req):
-    if req.get("result").get("action") != "shipping.cost":
+    if req.get("result").get("action") != "parcel.tracking":
         return {}
     result = req.get("result")
     parameters = result.get("parameters")
-    zone = parameters.get("shipping-zone")
+    track = parameters.get("track-number")
 
-    cost = {'Europe':100, 'North America':200, 'South America':300, 'Asia':400, 'Africa':500}
+    destinations = {'12':'deliverd', '23':'In transition', '34':'In depot', '45':'At Toronto Airport', '56':'At Ottawa'}
 
-    speech = "The cost of shipping to " + zone + " is " + str(cost[zone]) + " euros."
+    speech = "The parcel with track number : " + track + " latest status is : " + destinations[track]
 
     print("Response:")
     print(speech)
@@ -53,6 +55,6 @@ def makeWebhookResult(req):
 if __name__ == '__main__':
     port = int(os.getenv('PORT', 5000))
 
-    print "Starting app on port %d" % port
+    print ("Starting app on port %d" % (port))
 
     app.run(debug=True, port=port, host='0.0.0.0')
