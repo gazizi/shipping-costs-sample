@@ -55,15 +55,15 @@ def makeURLResult(req):
         rsp = urllib.request.urlopen(url)
     except urllib.request.HTTPError as e:
             if e.code == 401:
-                print 'not authorized'
+                print ('not authorized')
             elif e.code == 404:
-                print 'not found'
+                print ('not found')
             elif e.code == 503:
-                print 'service unavailable'
+                print ('service unavailable')
             else:
-                print 'unknown error: '
+                print ('unknown error: ')
         else:
-            print 'success'
+            print ('success')
             json_data = json.load(rsp)
 
 
