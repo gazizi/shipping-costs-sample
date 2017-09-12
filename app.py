@@ -51,7 +51,7 @@ def makeURLResult(req):
     data['status'] = 'not found! - wrong track number.'
     json_data = json.dumps(data)
 
-    rsp = urllib.request.urlopen(url)
+    rsp = urllib.request.urlopen(request)
     if e.code == 200:
          print ('success')
          json_data = json.load(rsp)
@@ -59,7 +59,7 @@ def makeURLResult(req):
          print ('not found')
 
     # try:
-    #     rsp = urllib.request.urlopen(url)
+    #     rsp = urllib.request.urlopen(request)
     # except URLError as e:
     #     if e.code == 401:
     #         print ('not authorized')
