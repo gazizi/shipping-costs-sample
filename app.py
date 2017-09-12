@@ -46,7 +46,7 @@ def makeURLResult(req):
     base64string = base64.encodestring(('%s:%s' % ('CPO_TAP_APP', 'CPO_TAP-QA')).encode()).decode().replace('\n', '')
 
     request.add_header("Authorization", "Basic %s" % base64string)
-    rsp = urllib.urlopen(request)
+    rsp = urllib.request.urlopen(request)
 
     json_data = json.load(rsp)
 
