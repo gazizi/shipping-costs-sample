@@ -52,8 +52,8 @@ def makeURLResult(req):
     json_data = json.dumps(data)
 
     try:
-        urllib.request.urlopen(url)
-        except urllib2.HTTPError, e:
+        rsp = urllib.request.urlopen(url)
+    except urllib.request.HTTPError, e:
             if e.code == 401:
                 print 'not authorized'
             elif e.code == 404:
@@ -64,7 +64,7 @@ def makeURLResult(req):
                 print 'unknown error: '
         else:
             print 'success'
-            json_data = json.load(e)
+            json_data = json.load(rsp)
 
 
     # rsp = urllib.request.urlopen(request)
