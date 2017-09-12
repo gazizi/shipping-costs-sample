@@ -54,7 +54,7 @@ def makeURLResult(req):
 
     destinations = {'12':'deliverd', '23':'In transition', '34':'In depot', '45':'At Toronto Airport', '56':'At Ottawa'}
 
-    speech =  json_data # "The parcel with track number : " + track + " latest status is : " + destinations[track]
+    speech =  "The parcel with track number : " + pin  + " latest status is : " + json_data['status']
 
     print("Response:")
     print(speech)
