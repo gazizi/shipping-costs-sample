@@ -36,9 +36,9 @@ def makeURLResult(req):
         return {}
     result = req.get("result")
     parameters = result.get("parameters")
-    track = parameters.get("track-number")
+    pin = parameters.get("track-number")
 
-    pin = '7023210361050105'
+    #pin = '7023210361050105'
 
     request = urllib.request.Request("https://stg30.soa-gw.canadapost.ca/track/json/package/{0}/info".format(pin))
 
