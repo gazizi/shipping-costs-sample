@@ -47,19 +47,6 @@ def makeURLResult(req):
 
     request.add_header("Authorization", "Basic %s" % base64string)
 
-    # data = {}
-    # data['status'] = 'not found! - wrong track number.'
-    # json_data = json.dumps(data)
-
-    # rsp = urllib.request.urlopen(request)
-    # if e.code == 200:
-    #      print ('success')
-    #      json_data = json.load(rsp)
-    #      speech =  "The parcel with track number : " + pin  + " latest status is : " + json_data['status']
-    # else:
-    #      print ('not found')
-    #       speech =  "The parcel with track number : " + pin  + "not found."
-
     try:
         rsp = urllib.request.urlopen(request)
     except urllib.error.HTTPError as e:
@@ -80,17 +67,6 @@ def makeURLResult(req):
         print ('success')
         json_data = json.load(rsp)
         speech =  "The parcel with track number : " + pin  + " latest status is : " + json_data['status']
-
-    # rsp = urllib.request.urlopen(request)
-    # code = rsp.getcode()
-    # if rsp.code == 200:
-    #     code =  'success'
-    #     json_data = json.load(rsp)
-    # else:
-    #     code = 'not found! - wrong track number '
-    #     data = {}
-    #     data['status'] = 'not found! - wrong track number.'
-    #     json_data = json.dumps(data)
 
     #destinations = {'12':'deliverd', '23':'In transition', '34':'In depot', '45':'At Toronto Airport', '56':'At Ottawa'}
 
