@@ -53,7 +53,7 @@ def makeURLResult(req):
 
     try:
         rsp = urllib.request.urlopen(url)
-    except urllib.request.HTTPError, e:
+    except urllib.request.HTTPError as e:
             if e.code == 401:
                 print 'not authorized'
             elif e.code == 404:
