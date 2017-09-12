@@ -5,7 +5,7 @@ import urllib.request
 import base64
 import json
 import os
-
+from http import HTTPStatus
 from flask import Flask
 from flask import request
 from flask import make_response
@@ -51,21 +51,28 @@ def makeURLResult(req):
     data['status'] = 'not found! - wrong track number.'
     json_data = json.dumps(data)
 
-    try:
-        rsp = urllib.request.urlopen(url)
-    except URLError as e:
-        if e.code == 401:
-            print ('not authorized')
-        elif e.code == 4014:
-            print ('not found')
-        elif e.code == 503:
-            print ('service unavailable')
-        else:
-            print ('unknown error: ')
-    else:
-        # everything is fine
-        print ('success')
-        json_data = json.load(rsp)
+    rsp = urllib.request.urlopen(url)
+    if e.code == 200:
+         print ('success')
+         json_data = json.load(rsp)
+    else
+         print ('not found')
+
+    # try:
+    #     rsp = urllib.request.urlopen(url)
+    # except URLError as e:
+    #     if e.code == 401:
+    #         print ('not authorized')
+    #     elif e.code == 4014:
+    #         print ('not found')
+    #     elif e.code == 503:
+    #         print ('service unavailable')
+    #     else:
+    #         print ('unknown error: ')
+    # else:
+    #     # everything is fine
+    #     print ('success')
+    #     json_data = json.load(rsp)
 
     # rsp = urllib.request.urlopen(request)
     # code = rsp.getcode()
