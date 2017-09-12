@@ -46,26 +46,17 @@ def makeURLResult(req):
     base64string = base64.encodestring(('%s:%s' % ('CPO_TAP_APP', 'CPO_TAP-QA')).encode()).decode().replace('\n', '')
 
     request.add_header("Authorization", "Basic %s" % base64string)
-    try:
-            urllib.request.urlopen(url)
-        except urllib.HTTPError, rsp:
-            if rsp.code == 200:
-                code =  'success'
-                json_data = json.load(rsp)
-            else:
-                code = 'not found! - wrong track number '
-                data = {}
-                data['status'] = 'not found! - wrong track number.'
-                json_data = json.dumps(data)
-        else:
-            code =  'not found!'
-            data = {}
-            data['status'] = 'not found! - error.'
-            json_data = json.dumps(data)
 
-    #rsp = urllib.request.urlopen(request)
-    #rsp_response_code = rsp.getcode()
-
+    rsp = urllib.request.urlopen(request)
+    code = rsp.getcode()
+    if rsp.code == 200:
+        code =  'success'
+        json_data = json.load(rsp)
+    else:
+        code = 'not found! - wrong track number '
+        data = {}
+        data['status'] = 'not found! - wrong track number.'
+        json_data = json.dumps(data)
     destinations = {'12':'deliverd', '23':'In transition', '34':'In depot', '45':'At Toronto Airport', '56':'At Ottawa'}
 
     speech =  "The parcel with track number : " + pin  + " latest status is : " + json_data['status']
