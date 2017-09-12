@@ -19,7 +19,7 @@ def webhook():
     print("Request:")
     print(json.dumps(req, indent=4))
 
-    res = makeWebhookResult(req)
+    res = makeURLResult(req) #  makeWebhookResult(req)
 
     res = json.dumps(res, indent=4)
     print(res)
@@ -28,6 +28,40 @@ def webhook():
     return r
 
     return r
+
+def makeURLResult(req):
+    if req.get("result").get("action") != "parcel.tracking":
+        return {}
+    result = req.get("result")
+    parameters = result.get("parameters")
+    track = parameters.get("track-number")
+
+    pin = '7023210361050105'
+
+    request = urllib.Request("https://stg30.soa-gw.canadapost.ca/track/json/package/{0}/info".format(pin))
+
+    base64string = base64.encodestring('%s:%s' % ('CPO_TAP_APP', 'CPO_TAP-QA')).replace('\n', '')
+    request.add_header("Authorization", "Basic %s" % base64string)
+    rsp = urllib.urlopen(request)
+
+    json_data = json.load(rsp)
+
+
+
+    destinations = {'12':'deliverd', '23':'In transition', '34':'In depot', '45':'At Toronto Airport', '56':'At Ottawa'}
+
+    speech =  json_data # "The parcel with track number : " + track + " latest status is : " + destinations[track]
+
+    print("Response:")
+    print(speech)
+
+    return {
+        "speech": speech,
+        "displayText": speech,
+        #"data": {},
+        # "contextOut": [],
+        "source": "apiai-onlinestore-shipping"
+    }
 
 def makeWebhookResult(req):
     if req.get("result").get("action") != "parcel.tracking":
