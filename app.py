@@ -39,7 +39,7 @@ def makeURLResult(req):
 
     pin = '7023210361050105'
 
-    request = urllib.Request("https://stg30.soa-gw.canadapost.ca/track/json/package/{0}/info".format(pin))
+    request = urllib.request.Request("https://stg30.soa-gw.canadapost.ca/track/json/package/{0}/info".format(pin))
 
     base64string = base64.encodestring('%s:%s' % ('CPO_TAP_APP', 'CPO_TAP-QA')).replace('\n', '')
     request.add_header("Authorization", "Basic %s" % base64string)
