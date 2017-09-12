@@ -42,7 +42,9 @@ def makeURLResult(req):
 
     request = urllib.request.Request("https://stg30.soa-gw.canadapost.ca/track/json/package/{0}/info".format(pin))
 
-    base64string = base64.encodestring('%s:%s' % ('CPO_TAP_APP', 'CPO_TAP-QA')).replace('\n', '')
+    #base64string = base64.encodestring('%s:%s' % ('CPO_TAP_APP', 'CPO_TAP-QA')).replace('\n', '')
+    base64string = base64.encodestring(('%s:%s' % (CPO_TAP_APP,CPO_TAP)).encode()).decode().replace('\n', '')
+
     request.add_header("Authorization", "Basic %s" % base64string)
     rsp = urllib.urlopen(request)
 
