@@ -68,10 +68,10 @@ def makeURLResult(req):
             speech =  "The parcel with track number : " + pin  + " error: not authorized."
         elif e.code == 404:
             print ('not found')
-            speech =  "The parcel with track number : " + pin  + " error: not found."
+            speech =  "The parcel with track number : " + pin  + " not found!, Please check your track number."
         elif e.code == 503:
             print ('service unavailable')
-            speech =  "service unavailable."
+            speech =  "error - service unavailable."
         else:
             print ('unknown error: ')
             speech =  "unknown error."
