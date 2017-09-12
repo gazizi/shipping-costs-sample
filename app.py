@@ -47,10 +47,14 @@ def makeURLResult(req):
 
     request.add_header("Authorization", "Basic %s" % base64string)
     rsp = urllib.request.urlopen(request)
+    rsp_response_code = rsp.getcode()
 
-    json_data = json.load(rsp)
-
-
+    if rsp_response_code = '200'
+        json_data = json.load(rsp)
+    else
+        data = {}
+        data['status'] = 'not found! - wrong track number.'
+        json_data = json.dumps(data)
 
     destinations = {'12':'deliverd', '23':'In transition', '34':'In depot', '45':'At Toronto Airport', '56':'At Ottawa'}
 
