@@ -47,8 +47,6 @@ def makeURLResult(req):
 
     request.add_header("Authorization", "Basic %s" % base64string)
 
-
-     code = 'not found! - wrong track number '
     data = {}
     data['status'] = 'not found! - wrong track number.'
     json_data = json.dumps(data)
