@@ -49,7 +49,7 @@ def makeURLResult(req):
     rsp = urllib.request.urlopen(request)
     rsp_response_code = rsp.getcode()
 
-    if rsp_response_code = '200'
+    if rsp_response_code == '200'
         json_data = json.load(rsp)
     else
         data = {}
