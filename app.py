@@ -52,7 +52,7 @@ def makeURLResult(req):
     json_data = json.dumps(data)
 
      try:
-            urllib.request.urlopen(url)
+        urllib.request.urlopen(url)
         except urllib2.HTTPError, e:
             if e.code == 401:
                 print 'not authorized'
