@@ -5,7 +5,7 @@ import urllib.request
 import base64
 import json
 import os
-
+from http import HTTPStatus
 from flask import Flask
 from flask import request
 from flask import make_response
@@ -49,7 +49,7 @@ def makeURLResult(req):
     rsp = urllib.request.urlopen(request)
     rsp_response_code = rsp.getcode()
 
-    if rsp_response_code == '200'
+    if rsp_response_code == HTTPStatus.OK
         json_data = json.load(rsp)
     else
         data = {}
