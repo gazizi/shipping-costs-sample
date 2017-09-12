@@ -56,9 +56,9 @@ def makeURLResult(req):
     except URLError as e:
         if e.code == 401:
             print ('not authorized')
-        elif e.code == 4014
+        elif e.code == 4014:
             print ('not found')
-        elif e.code == 503
+        elif e.code == 503:
             print ('service unavailable')
         else:
             print ('unknown error: ')
