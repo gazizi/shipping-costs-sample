@@ -47,16 +47,39 @@ def makeURLResult(req):
 
     request.add_header("Authorization", "Basic %s" % base64string)
 
-    rsp = urllib.request.urlopen(request)
-    code = rsp.getcode()
-    if rsp.code == 200:
-        code =  'success'
-        json_data = json.load(rsp)
-    else:
-        code = 'not found! - wrong track number '
-        data = {}
-        data['status'] = 'not found! - wrong track number.'
-        json_data = json.dumps(data)
+
+     code = 'not found! - wrong track number '
+    data = {}
+    data['status'] = 'not found! - wrong track number.'
+    json_data = json.dumps(data)
+
+     try:
+            urllib.request.urlopen(url)
+        except urllib2.HTTPError, e:
+            if e.code == 401:
+                print 'not authorized'
+            elif e.code == 404:
+                print 'not found'
+            elif e.code == 503:
+                print 'service unavailable'
+            else:
+                print 'unknown error: '
+        else:
+            print 'success'
+            json_data = json.load(e)
+
+
+    # rsp = urllib.request.urlopen(request)
+    # code = rsp.getcode()
+    # if rsp.code == 200:
+    #     code =  'success'
+    #     json_data = json.load(rsp)
+    # else:
+    #     code = 'not found! - wrong track number '
+    #     data = {}
+    #     data['status'] = 'not found! - wrong track number.'
+    #     json_data = json.dumps(data)
+
     destinations = {'12':'deliverd', '23':'In transition', '34':'In depot', '45':'At Toronto Airport', '56':'At Ottawa'}
 
     speech =  "The parcel with track number : " + pin  + " latest status is : " + json_data['status']
