@@ -66,7 +66,7 @@ def makeURLResult(req):
         # everything is fine
         print ('success')
         json_data = json.load(rsp)
-        speech =  "The parcel with track number : " + pin  + " latest status is : " + json_data['status'] + " Description: " + json_data['descEn']
+        speech =  "The parcel with track number : " + pin  + " latest status is : " + json_data['status']
 
     print("Response:")
     print(speech)
