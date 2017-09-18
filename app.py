@@ -39,8 +39,8 @@ def makeURLResult(req):
     pin = parameters.get("track-number")
 
     #pin = '7023210361050105'
-
-    request = urllib.request.Request("https://stg30.soa-gw.canadapost.ca/track/json/package/{0}/info".format(pin))
+    url = 'https://stg30.soa-gw.canadapost.ca/track/json/package/{0}/info'
+    request = urllib.request.Request(url.format(pin))
 
     #base64string = base64.encodestring('%s:%s' % ('CPO_TAP_APP', 'CPO_TAP-QA')).replace('\n', '')
     base64string = base64.encodestring(('%s:%s' % ('CPO_TAP_APP', 'CPO_TAP-QA')).encode()).decode().replace('\n', '')
