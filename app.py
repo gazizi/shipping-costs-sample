@@ -9,7 +9,9 @@ from http import HTTPStatus
 from flask import Flask
 from flask import request
 from flask import make_response
-# this is new 
+import xml.etree.ElementTree as ET
+import string
+
 # Flask app should start in global layout
 app = Flask(__name__)
 
