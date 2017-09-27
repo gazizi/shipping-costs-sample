@@ -40,7 +40,7 @@ def makeURLResult(req):
     parameters = result.get("parameters")
     pin = parameters.get("track-number")
 
-    url = 'https://soa-gw.canadapost.ca/vis/track/pin/MJ107326680CA/detail'
+    url = "https://soa-gw.canadapost.ca/vis/track/pin/" + pin + "/detail"
     request = urllib.request.Request(url) # .format(pin))
     print('URL = ' + url)
     base64string = base64.encodestring(('%s:%s' % ('ee36457569d0beab', '60cd45fc6b41020bd66e2d')).encode()).decode().replace('\n', '')
