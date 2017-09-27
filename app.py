@@ -94,7 +94,7 @@ def makeURLResult(req):
 
 
 
-    speech = "status : " + ev_description.text
+    speech = "As of " + ev_date.text + ":" + ev_time.text + " status is : " + ev_description.text
 
     print ( 'Response :')
     print(speech)
