@@ -98,8 +98,6 @@ def makeURLResult(req):
 
     print ( 'Response :')
     print(speech)
-    return speech
-
 
     return {
         "speech": speech,
