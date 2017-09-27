@@ -65,9 +65,32 @@ def makeURLResult(req):
     else:
         # everything is fine
         print ('success')
-        json_data = json.load(rsp)
-        speech =  "The parcel with track number : " + pin  + " latest status is : " + json_data['status']
+        new_t = string.replace(rsp.split("\n")[1],'<tracking-detail xmlns="http://www.canadapost.ca/ws/track">','<tracking-detail>')
+        print new_t
+        root  = ET.fromstring(new_t)
+        output = ""
+        isDelivered = False
 
+        occurrences = root.findall('./significant-events/occurrence')
+        if occurrences:
+            for oc in occurrences:
+                d = oc.find('event-description')
+                isDelivered = (d.text == "Delivered")  #check for delivery status
+                if isDelivered:
+                    break
+
+            occurrence = occurrences[0]  # gets latest status
+            ev_description = occurrence.find('event-description')
+            ev_date = occurrence.find('event-date')
+            ev_time = occurrence.find('event-time')
+            ev_site = occurrence.find('event-site')
+            ev_province = occurrence.find('event-province')
+
+
+
+        #json_data = json.load(rsp)
+        #speech =  "The parcel with track number : " + pin  + " latest status is : " + json_data['status']
+        speech =  "The parcel with track number : " + pin  + " latest status is : " + ev_description
     print("Response:")
     print(speech)
 
