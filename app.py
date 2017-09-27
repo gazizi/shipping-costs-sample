@@ -38,12 +38,10 @@ def makeURLResult(req):
     parameters = result.get("parameters")
     pin = parameters.get("track-number")
 
-    #pin = '7023210361050105'
-    url = 'https://stg30.soa-gw.canadapost.ca/track/json/package/{0}/info'
-    request = urllib.request.Request(url.format(pin))
-
-    #base64string = base64.encodestring('%s:%s' % ('CPO_TAP_APP', 'CPO_TAP-QA')).replace('\n', '')
-    base64string = base64.encodestring(('%s:%s' % ('CPO_TAP_APP', 'CPO_TAP-QA')).encode()).decode().replace('\n', '')
+    url = 'https://soa-gw.canadapost.ca/vis/track/pin/MJ107326680CA/detail'
+    request = urllib.request.Request(url) # .format(pin))
+    print('URL = ' + url)
+    base64string = base64.encodestring(('%s:%s' % ('ee36457569d0beab', '60cd45fc6b41020bd66e2d')).encode()).decode().replace('\n', '')
 
     request.add_header("Authorization", "Basic %s" % base64string)
 
@@ -51,23 +49,27 @@ def makeURLResult(req):
         rsp = urllib.request.urlopen(request)
     except urllib.error.HTTPError as e:
         if e.code == 401:
-            print ('not authorized')
-            speech =  "The parcel with track number : " + pin  + " error: not authorized."
+            print ('--------->>not authorized')
+            speech = "status : not authorized"
         elif e.code == 404:
-            print ('not found')
-            speech =  "The parcel with track number : " + pin  + " not found!, Please check your track number."
+            print('--------->>not found')
+            speech = "status : not found"
         elif e.code == 503:
-            print ('service unavailable')
-            speech =  "error - service unavailable."
+            print('--------->>service unavailable')
+            speech = "status : service unavailable"
         else:
-            print ('unknown error: ')
-            speech =  "unknown error."
+            print('--------->>Unknown error')
+            speech = "status : Unknown"
     else:
-        # everything is fine
-        print ('success')
-        new_t = string.replace(rsp.split("\n")[1],'<tracking-detail xmlns="http://www.canadapost.ca/ws/track">','<tracking-detail>')
-        print new_t
-        root  = ET.fromstring(new_t)
+        print('Succedd')
+        print ('---------------------------------')
+        data = rsp.read().decode('utf-8')
+        root = ET.fromstring(data)
+        # hack removes the namespace since ElementTree cannot process it cleanly
+        new_data = data.replace('<tracking-detail xmlns="http://www.canadapost.ca/ws/track">','<tracking-detail>')
+
+        print ('new_data: ' + new_data)
+        root  = ET.fromstring(new_data)
         output = ""
         isDelivered = False
 
@@ -76,11 +78,13 @@ def makeURLResult(req):
             for oc in occurrences:
                 d = oc.find('event-description')
                 isDelivered = (d.text == "Delivered")  #check for delivery status
+                print ( 'isDelivered: %r' , isDelivered)
                 if isDelivered:
                     break
 
             occurrence = occurrences[0]  # gets latest status
             ev_description = occurrence.find('event-description')
+            print (ev_description.text)
             ev_date = occurrence.find('event-date')
             ev_time = occurrence.find('event-time')
             ev_site = occurrence.find('event-site')
@@ -88,11 +92,12 @@ def makeURLResult(req):
 
 
 
-        #json_data = json.load(rsp)
-        #speech =  "The parcel with track number : " + pin  + " latest status is : " + json_data['status']
-        speech =  "The parcel with track number : " + pin  + " latest status is : " + ev_description
-    print("Response:")
+    speech = "status : " + ev_description.text
+
+    print ( 'Response :')
     print(speech)
+    return speech
+
 
     return {
         "speech": speech,
